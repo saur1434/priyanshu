@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; background: #667eea; color: white; border: none; border-radius: 5px; }
+        button:hover { background: #764ba2; }
+        input { padding: 8px; margin: 5px 0; width: 100%; }
+        form { max-width: 400px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .info { color: blue; background: #f0f0ff; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>� GoCabn Go - Authentication Test</h1>
+
+    <div class="test-section">
+        <h2>Server Status</h2>
+        <div id="serverStatus">Checking...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>Customer Registration Test</h2>
+        <form id="testCustomerRegister">
+            <input type="text" placeholder="Full Name" id="fullName" value="John Doe" required>
+            <input type="email" placeholder="Email" id="email" value="john@example.com" required>
+            <input type="tel" placeholder="Phone" id="phone" value="9876543210" required>
+            <input type="password" placeholder="Password" id="password" value="Test@123" required>
+            <input type="password" placeholder="Confirm Password" id="confirmPassword" value="Test@123" required>
+            <button type="submit">Register Customer</button>
+        </form>
+        <div id="registerResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Customer Login Test</h2>
+        <form id="testCustomerLogin">
+            <input type="email" placeholder="Email" id="loginEmail" value="john@example.com" required>
+            <input type="password" placeholder="Password" id="loginPassword" value="Test@123" required>
+            <button type="submit">Login Customer</button>
+        </form>
+        <div id="loginResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Available Endpoints</h2>
+        <div class="info">
+            <p>✅ POST /api/customer/register</p>
+            <p>✅ POST /api/customer/verify-otp</p>
+            <p>✅ POST /api/customer/login</p>
+            <p>✅ GET /api/customer/profile</p>
+            <p>✅ POST /api/owner/register</p>
+            <p>✅ POST /api/owner/login</p>
+            <p>✅ GET /api/booking/create</p>
+            <p>✅ POST /api/chatbot/message</p>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        // Check server status
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('http://localhost:3000/api/chatbot/message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'test' })
+                });
+                if (response.ok) {
+                    document.getElementById('serverStatus').innerHTML = '<div class="success">✅ Backend running at http://localhost:3000</div>';
+                }
+            } catch (err) {
+                document.getElementById('serverStatus').innerHTML = '<div class="error">❌ Backend NOT running - Start with: npm start</div>';
+            }
+        }
+
+        // Test customer registration
+        document.getElementById('testCustomerRegister').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                password: document.getElementById('password').value,
+                confirmPassword: document.getElementById('confirmPassword').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/customer/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    document.getElementById('registerResult').innerHTML = `<div class="success">✅ Registration successful!<br>tempId: ${result.tempId}<br>OTP Required: ${result.requiresOTP}<br><small>Check terminal for OTP</small></div>`;
+                } else {
+                    document.getElementById('registerResult').innerHTML = `<div class="error">❌ Error: ${result.message}</div>`;
+                }
+            } catch (err) {
+                document.getElementById('registerResult').innerHTML = `<div class="error">❌ Connection error: ${err.message}</div>`;
+            }
+        });
+
+        // Test customer login
+        document.getElementById('testCustomerLogin').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/customer/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    document.getElementById('loginResult').innerHTML = `<div class="success">✅ Login successful!<br>Token: ${result.token?.substring(0, 20)}...<br>User: ${result.user?.fullName || result.user?.email}</div>`;
+                } else {
+                    document.getElementById('loginResult').innerHTML = `<div class="error">❌ Error: ${result.message}</div>`;
+                }
+            } catch (err) {
+                document.getElementById('loginResult').innerHTML = `<div class="error">❌ Connection error: ${err.message}</div>`;
+            }
+        });
+
+        // Check server on page load
+        window.addEventListener('load', checkServerStatus);
+    </script>
+</body>
+</html>

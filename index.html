@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <title>Hotel Q</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous"
+    referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <script src="config.js" defer></script>
+  <script src="terms-conditions.js" defer></script>
+  <script src="auth.js" defer></script>
+  <script src="i18n.js" defer></script>
+  <script src="location-search.js" defer></script>
+  
+  <!-- Leaflet.js for Map Display -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-WBkoXxo3GsH/wItsE7e4MzUkMmwkMvToes6Cbf96AQE=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-jR7ZYV+d+nUIZHD9bLECB6YpqCmX7X6jq8P6v6x8hE=" crossorigin=""></script>
+
+</head>
+
+<body>
+  <header class="header" id="navigation-menu">
+    <div class="container">
+      <nav>
+        <a href="#" class="logo"> <img src="image/logo.png" alt=""> </a>
+
+        <ul class="nav-menu">
+          <li> <a href="#home" class="nav-link" data-i18n="nav.home">Home</a> </li>
+          <li> <a href="#about" class="nav-link" data-i18n="nav.about">About</a> </li>
+          <li> <a href="#rooms" class="nav-link" data-i18n="nav.rooms">Rooms</a> </li>
+          <li> <a href="#restaurant" class="nav-link" data-i18n="nav.restaurant">Restaurant</a> </li>
+          <li> <a href="#gallery" class="nav-link" data-i18n="nav.gallery">Gallery</a> </li>
+          <li> <a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a> </li>
+          <li> <a href="#privatecabin" class="nav-link" data-i18n="nav.privatecabin">Quiet Seating</a> </li>
+          <li style="margin-left: 1rem; border-left: 1px solid #ccc; padding-left: 1rem;">
+            <button id="adminLoginBtn" class="nav-auth-btn admin-btn" data-i18n="nav.admin">Admin</button>
+          </li>
+          <li>
+            <button id="ownerLoginBtn" class="nav-auth-btn owner-btn" data-i18n="nav.owner">Owner</button>
+          </li>
+          <li>
+            <button id="customerLoginBtn" class="nav-auth-btn customer-btn" data-i18n="nav.user">user</button>
+          </li>
+        </ul>
+        <div class="lang-select" style="margin-left:1rem">
+          <label for="langSelector" style="display:none">Language</label>
+          <select id="langSelector" aria-label="Language selector">
+            <option value="en">English</option>
+            <option value="ne"></option>
+          </select>
+        </div>
+        <div class="hambuger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <script>
+    const hambuger = document.querySelector('.hambuger');
+    const navMenu = document.querySelector('.nav-menu');
+
+    hambuger.addEventListener("click", mobileMenu);
+
+    function mobileMenu() {
+      hambuger.classList.toggle("active");
+      navMenu.classList.toggle("active");
+    }
+
+    const navLink = document.querySelectorAll('.nav-link');
+    navLink.forEach((n) => n.addEventListener("click", closeMenu));
+
+    function closeMenu() {
+      hambuger.classList.remove("active");
+      navMenu.classList.remove("active");
+    }
+  </script>
+
+  <section class="home" id="home">
+    <div class="head_container">
+      <div class="box">
+        <div class="text">
+          <h1 data-i18n="home.title">Hello customer</h1>
+          <p data-i18n="home.desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+             <p data-i18n="footer.about"> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+             <p data-i18n="footer.acceptedMethods">Accepted payment methods</p>
+      </div>
+      <div class="image">
+        <img src="image/home1.jpg" class="slide">
+      </div>
+      <div class="image_item">
+        <img src="image/home1.jpg" alt="" class="slide active" onclick="img('image/home1.jpg')">
+        <img src="image/home2.jpg" alt="" class="slide" onclick="img('image/home2.jpg')">
+        <img src="image/home3.jpg" alt="" class="slide" onclick="img('image/home3.jpg')">
+        <img src="image/home4.jpg" alt="" class="slide" onclick="img('image/home4.jpg')">
+             <h3 data-i18n="footer.recentNews">Recent News</h3>
+    </div>
+  </section>
+  <script>
+    function img(anything) {
+      document.querySelector('.slide').src = anything;
+    }
+
+    function change(change) {
+      const line = document.querySelector('.image');
+      // TODO: Implement change function
+    }
+  </script>
+  <section class="book">
+    <div class="container flex">
+      <div class="input grid">
+        <div class="box">
+          <label data-i18n="book.checkin">Check-in:</label>
+          <input type="date" placeholder="Check-in-Date">
+        </div>
+        <div class="box">
+             <h3 data-i18n="footer.contactUs">Contact Us</h3>
+          <input type="date" placeholder="Check-out-Date">
+        </div>
+        <div class="box">
+          <label data-i18n="book.adults">Adults:</label> <br>
+          <input type="number" placeholder="0">
+        </div>
+        <div class="box">
+          <label data-i18n="book.children">Children:</label> <br>
+          <input type="number" placeholder="0">
+        </div>
+      </div>
+      <div class="search">
+        <input type="submit" value="SEARCH" data-i18n="btn.search">
+      </div>
+    </div>
+  </section>
+
+  <!-- 🗺️ LOCATION-BASED SEARCH SECTION -->
+  <section class="location-search" style="
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 20px;
+    color: white;
+    text-align: center;
+  ">
+    <div class="container">
+      <h2 style="margin: 0 0 10px 0; font-size: 2em;">🗺️ Find Rooms Near You</h2>
+      <p style="margin: 0 0 30px 0; font-size: 1.1em; opacity: 0.9;">
+        Discover properties in your preferred location
+      </p>
+
+      <div style="
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      ">
+        <div style="
+          display: grid;
+          grid-template-columns: 1fr 1fr auto;
+          gap: 12px;
+          margin-bottom: 20px;
+        ">
+          <!-- Location Input -->
+          <div>
+            <input 
+              type="text" 
+              id="locationInput" 
+              placeholder="Enter city name or coordinates (lat, lon)"
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 6px;
+                font-size: 1em;
+                box-sizing: border-box;
+              "
+            >
+          </div>
+
+          <!-- Radius Input -->
+          <div>
+            <input 
+              type="number" 
+              id="radiusInput" 
+              placeholder="Search radius (km)"
+              value="50"
+              min="1"
+              max="200"
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 6px;
+                font-size: 1em;
+                box-sizing: border-box;
+              "
+            >
+          </div>
+
+          <!-- Search Button -->
+          <button 
+            id="locationSearchBtn" 
+            style="
+              background: #667eea;
+              color: white;
+              border: none;
+              padding: 12px 30px;
+              border-radius: 6px;
+              cursor: pointer;
+              font-weight: bold;
+              font-size: 1em;
+              transition: all 0.3s ease;
+            "
+            onmouseover="this.style.background='#764ba2'"
+            onmouseout="this.style.background='#667eea'"
+          >
+            🔍 Search
+          </button>
+        </div>
+
+        <!-- Current Location Button -->
+        <button 
+          id="currentLocationBtn" 
+          style="
+            background: #1abc9c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            width: 100%;
+            transition: all 0.3s ease;
+          "
+          onmouseover="this.style.background='#16a085'"
+          onmouseout="this.style.background='#1abc9c'"
+        >
+          📍 Use My Current Location
+        </button>
+
+        <!-- Info Text -->
+        <p style="
+          margin: 15px 0 0 0;
+          color: #666;
+          font-size: 0.9em;
+        ">
+          💡 <strong>Tip:</strong> Click "Use My Current Location" to find properties near you, or enter a city name to search there.
+        </p>
+      </div>
+
+      <!-- Search Results Container -->
+      <div id="searchResults" style="margin-top: 30px;"></div>
+    </div>
+  </section>
+  <section class="about top" id="about">
+    <div class="container flex">
+      <div class="left">
+        <div class="img">
+          <img src="image/a1.jpg" alt="" class="image1">
+          <img src="image/a2.jpg" alt="" class="image2">
+        </div>
+      </div>
+      <div class="right">
+        <div class="heading">
+          <h5>RAISING COMFOMRT TO THE HIGHEST LEVEL</h5>
+          <h2>Welcome to GoCabn Go</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <button class="btn1">READ MORE</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="wrapper top">
+    <div class="container">
+      <div class="text">
+        <h2>Our Amenities</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+
+        <div class="content">
+          <div class="box flex">
+            <i class="fas fa-swimming-pool"></i>
+            <span>Swimming pool</span>
+          </div>
+          <div class="box flex">
+            <i class="fas fa-dumbbell"></i>
+            <span>Gym & yogo</span>
+          </div>
+          <div class="box flex">
+            <i class="fas fa-spa"></i>
+            <span>Spa & massage</span>
+          </div>
+          <div class="box flex">
+            <i class="fas fa-ship"></i>
+            <span>Boat Tours</span>
+          </div>
+          <div class="box flex">
+            <i class="fas fa-swimmer"></i>
+            <span>Surfing Lessons</span>
+          </div>
+          <div class="box flex">
+            <i class="fas fa-microphone"></i>
+            <span>Conference room</span>
+          </div>
+          <div class="box flex">
+            <i class="fas fa-water"></i>
+            <span>Diving & smorking</span>
+          </div>
+          <div class="box flex">
+            <i class="fas fa-umbrella-beach"></i>
+            <span>Private Beach</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="room top" id="room">
+    <div class="container">
+      <div class="heading_top flex1">
+        <div class="heading">
+          <h5>RAISING COMFORT TO THE HIGHEST LEVEL</h5>
+          <h2>Rooms $ Suites</h2>
+        </div>
+        <div class="button">
+          <button class="btn1">VIEW ALL</button>
+        </div>
+      </div>
+
+      <div class="content grid">
+        <div class="box">
+          <div class="img">
+            <img src="image/r1.jpg" alt="">
+          </div>
+          <div class="text">
+            <h3>Superior Soble Rooms</h3>
+            <p> <span>$</span>129 <span>/per night</span> </p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/r2.jpg" alt="">
+          </div>
+          <div class="text">
+            <h3>Superior Soble Rooms</h3>
+            <p> <span>$</span>129 <span>/per night</span> </p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/r3.jpg" alt="">
+          </div>
+          <div class="text">
+            <h3>Superior Soble Rooms</h3>
+            <p> <span>$</span>129 <span>/per night</span> </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="wrapper wrapper2 top">
+    <div class="container">
+      <div class="text">
+        <div class="heading">
+          <h5>AT THE HEART OF COMMUNICATION</h5>
+          <h2>People Say</h2>
+        </div>
+
+        <div class="para">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+
+          <div class="box flex">
+            <div class="img">
+              <img src="image/c.jpg" alt="">
+            </div>
+            <div class="name">
+              <h5>KATE PALMER</h5>
+              <h5>IDAHO</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="restaurant top" id="restaurant">
+    <div class="container flex">
+      <div class="left">
+        <img src="image/re.jpg" alt="">
+      </div>
+      <div class="right">
+        <div class="text">
+          <h2>Our Restaurant</h2>
+          <p> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        <div class="accordionWrapper">
+          <div class="accordionItem open">
+            <h2 class="accordionIHeading">Italian Kitchen</h2>
+            <div class="accordionItemContent">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
+          </div>
+          <div class="accordionItem close">
+            <h2 class="accordionIHeading">Mexican Kitchen</h2>
+            <div class="accordionItemContent">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
+          </div>
+          <div class="accordionItem close">
+            <h2 class="accordionIHeading">Italian Kitchen</h2>
+            <div class="accordionItemContent">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
+          </div>
+          <div class="accordionItem close">
+            <h2 class="accordionIHeading">Mexican Kitchen</h2>
+            <div class="accordionItemContent">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    var accItem = document.getElementsByClassName('accordionItem');
+    var accHD = document.getElementsByClassName('accordionIHeading');
+
+    for (i = 0; i < accHD.length; i++) {
+      accHD[i].addEventListener('click', toggleItem, false);
+    }
+
+    function toggleItem() {
+      var itemClass = this.parentNode.className;
+      for (var i = 0; i < accItem.length; i++) {
+        accItem[i].className = 'accordionItem close';
+      }
+      if (itemClass == 'accordionItem close') {
+        this.parentNode.className = 'accordionItem open';
+      }
+    }
+  </script>
+
+
+
+  <section class="gallary mtop " id="gallary">
+    <div class="container">
+      <div class="heading_top flex1">
+        <div class="heading">
+          <h5>WELCOME TO OUR PHOTO GALLERY</h5>
+          <h2>Photo Gallery of Our Hotel</h2>
+        </div>
+        <div class="button">
+          <button class="btn1">VIEW GALLERY</button>
+        </div>
+      </div>
+
+      <div class="owl-carousel owl-theme">
+        <div class="item">
+          <img src="image/g1.jpg" alt="">
+        </div>
+        <div class="item">
+          <img src="image/g2.jpg" alt="">
+        </div>
+        <div class="item">
+          <img src="image/g3.jpg" alt="">
+        </div>
+        <div class="item">
+          <img src="image/g4.jpg" alt="">
+        </div>
+        <div class="item">
+          <img src="image/g5.jpg" alt="">
+        </div>
+        <div class="item">
+          <img src="image/g6.jpg" alt="">
+        </div>
+        <div class="item">
+          <img src="image/g7.jpg" alt="">
+        </div>
+        <div class="item">
+          <img src="image/g8.jpg" alt="">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js" integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA==" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+  <script>
+    $('.owl-carousel').owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: true,
+      dots: false,
+      navText: ["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"],
+      responsive: {
+        0: {
+          items: 1
+        },
+        768: {
+          items: 2
+        },
+        1000: {
+          items: 4
+        }
+      }
+    })
+  </script>
+
+
+
+  <section class="map top">
+    <div id="map"></div>
+    <div class="map-controls">
+      <button id="locateBtn">Find my location</button>
+      <div id="mapMessage" class="map-message" style="display:none"></div>
+    </div>
+  </section>
+  <!-- Leaflet map (OpenStreetMap) - no API key required -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const defaultPos = [27.69383745, 85.32395955];
+      const map = L.map('map').setView(defaultPos, 13);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      const locateBtn = document.getElementById('locateBtn');
+      let userMarker;
+
+      function onLocationFound(e) {
+        const latlng = e.latlng;
+        map.setView(latlng, 15);
+        if (userMarker) userMarker.setLatLng(latlng);
+        else userMarker = L.marker(latlng).addTo(map).bindPopup('You are here').openPopup();
+        // hide any previous message
+        const msg = document.getElementById('mapMessage');
+        if (msg) msg.style.display = 'none';
+      }
+
+      function onLocationError(e) {
+        const msg = document.getElementById('mapMessage');
+        let text = 'Location unavailable. Showing default location.';
+        // Permission denied
+        if (e && (e.code === 1 || /denied/i.test(e.message || ''))) {
+          text = '<strong>Location permission denied.</strong><br>' +
+            'To enable location: open browser site settings, allow Location for this site, then click "Retry".';
+        } else if (e && e.message) {
+          text = 'Location error: ' + (e.message || e);
+        }
+        if (msg) {
+          msg.innerHTML = '<div>' + text + '</div><div style="margin-top:8px"><button id="retryLocate" class="map-retry">Retry</button></div>';
+          msg.style.display = 'block';
+          const retry = document.getElementById('retryLocate');
+          if (retry) retry.addEventListener('click', function () {
+            msg.style.display = 'none';
+            map.locate({ setView: true, maxZoom: 16 });
+          });
+        }
+        // center on default position and show hotel marker
+        map.setView(defaultPos, 13);
+        if (!userMarker) {
+          L.marker(defaultPos).addTo(map).bindPopup('GoCabn Go (default)').openPopup();
+        }
+      }
+
+      locateBtn.addEventListener('click', function () {
+        map.locate({ setView: true, maxZoom: 16, watch: false });
+      });
+
+      // try to locate on load (silent)
+      map.on('locationfound', onLocationFound);
+      map.on('locationerror', onLocationError);
+      map.locate({ setView: false, maxZoom: 15 });
+    });
+  </script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
+  <footer>
+    <div class="container grid top">
+      <div class="box">
+        <img src="https://img.icons8.com/external-flatart-icons-flat-flatarticons/48/000000/external-hotel-hotel-services-and-city-elements-flatart-icons-flat-flatarticons-1.png" />
+        <p> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <p>Accepted payment methods</p>
+        <div class="payment grid">
+          <img src="https://img.icons8.com/color/48/000000/visa.png" />
+          <img src="https://img.icons8.com/color/48/000000/mastercard.png" />
+          <img src="https://img.icons8.com/color-glass/48/000000/paypal.png" />
+          <img src="https://img.icons8.com/fluency/48/000000/amex.png" />
+        </div>
+      </div>
+
+      <div class="box">
+        <h3>Recent News</h3>
+
+        <ul>
+          <li>Our Secret Island Boat Tour Is Just for You</li>
+          <li>Chill and Escape in Our Natural Shelters</li>
+          <li>September Specials at GoCabn Go</li>
+          <li>Live Music Concerts at GoCabn Go</li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h3>For Customers</h3>
+        <ul>
+          <li>About GoCabn Go</li>
+          <li>Customer Care/Help</li>
+          <li>Corporate Accounts</li>
+          <li>Financial Information</li>
+          <li>Terms & Conditions</li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h3>Contact Us</h3>
+
+        <ul>
+          <li>NEAR SKIT COLLEGE JAGATPURA, JAIPUR 302017</li>
+          <li><i class="far fa-envelope"></i>priyanshugoyal609@gmail.com </li>
+          <li><i class="far fa-phone-alt"></i>9799709091 </li>
+          <li><i class="far fa-phone-alt"></i> 9799709091</li>
+          <li><i class="far fa-comments"></i>24/ 7 Customer Services </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Payment Modal -->
+  <div id="payment-modal" class="payment-modal hidden">
+    <div class="payment-container">
+      <!-- Close Button -->
+      <button class="payment-close-btn" onclick="closePaymentModal()">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <!-- Booking Summary -->
+      <div class="payment-header">
+        <h2>Complete Your Payment</h2>
+        <div class="booking-summary">
+          <div class="summary-item">
+            <span>Room Type:</span>
+            <span id="summary-room">Standard Room</span>
+          </div>
+          <div class="summary-item">
+            <span>Check-in:</span>
+            <span id="summary-checkin">-</span>
+          </div>
+          <div class="summary-item">
+            <span>Check-out:</span>
+            <span id="summary-checkout">-</span>
+          </div>
+          <div class="summary-item">
+            <span>Number of Nights:</span>
+            <span id="summary-nights">-</span>
+          </div>
+          <div class="summary-item total">
+            <span>Total Amount:</span>
+            <span id="summary-total">₹0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Method Tabs -->
+      <div class="payment-tabs">
+        <button class="payment-tab-btn active" onclick="switchPaymentTab('card')">
+          <i class="fas fa-credit-card"></i> Card Payment
+        </button>
+        <button class="payment-tab-btn" onclick="switchPaymentTab('upi')">
+          <i class="fas fa-mobile-alt"></i> UPI Payment
+        </button>
+      </div>
+
+      <!-- Card Payment Form -->
+      <div id="card-payment" class="payment-tab-content active">
+        <form id="card-form" onsubmit="processCardPayment(event)">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="cardName" placeholder="John Doe" required>
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="cardEmail" placeholder="john@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Expiry Date</label>
+              <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" required>
+            </div>
+            <div class="form-group">
+              <label>CVV</label>
+              <input type="text" id="cardCVV" placeholder="123" maxlength="3" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="cardAgreement" required>
+              I agree to the payment terms and conditions
+            </label>
+          </div>
+
+          <button type="submit" class="payment-btn">Pay ₹<span id="card-amount">0</span> Now</button>
+        </form>
+      </div>
+
+      <!-- UPI Payment Form -->
+      <div id="upi-payment" class="payment-tab-content">
+        <form id="upi-form" onsubmit="processUPIPayment(event)">
+          <div class="upi-options">
+            <button type="button" class="upi-option" onclick="selectUPIApp('googlepay')">
+              <i class="fas fa-mobile-alt"></i>
+              <span>Google Pay</span>
+            </button>
+            <button type="button" class="upi-option" onclick="selectUPIApp('phonepe')">
+              <i class="fas fa-mobile-alt"></i>
+              <span>PhonePe</span>
+            </button>
+            <button type="button" class="upi-option" onclick="selectUPIApp('paytm')">
+              <i class="fas fa-mobile-alt"></i>
+              <span>Paytm</span>
+            </button>
+            <button type="button" class="upi-option" onclick="selectUPIApp('bhim')">
+              <i class="fas fa-mobile-alt"></i>
+              <span>BHIM</span>
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label>UPI ID</label>
+            <input type="text" id="upiId" placeholder="username@upi" required>
+          </div>
+
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="upiName" placeholder="John Doe" required>
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="upiEmail" placeholder="john@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="upiPhone" placeholder="+91 98765 43210" required>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="upiAgreement" required>
+              I agree to the payment terms and conditions
+            </label>
+          </div>
+
+          <button type="submit" class="payment-btn">Pay ₹<span id="upi-amount">0</span> via UPI</button>
+        </form>
+      </div>
+
+      <!-- Payment Status Message -->
+      <div id="payment-message" class="payment-message hidden"></div>
+    </div>
+  </div>
+
+  <!-- Payment Overlay -->
+  <div id="payment-overlay" class="payment-overlay hidden" onclick="closePaymentModal()"></div>
+
+  <!-- Chatbot Widget -->
+  <div id="chatbot-widget" class="chatbot-widget">
+    <!-- Chat Bubble Button -->
+    <button id="chatbot-toggle" class="chatbot-bubble" title="Chat with us">
+      <i class="fas fa-comments"></i>
+      <span class="chat-badge">1</span>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chatbot-window" class="chatbot-window hidden">
+      <!-- Header -->
+      <div class="chatbot-header">
+        <h3>GOCABN Assistant</h3>
+        <button id="chatbot-close" class="chatbot-close-btn">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Messages Container -->
+      <div id="chatbot-messages" class="chatbot-messages">
+        <div class="chat-message bot-message">
+          <p>👋 Hello! Welcome to GOCABN. How can I help you today?</p>
+          <p class="message-time">Just now</p>
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="chatbot-input-area">
+        <input 
+          id="chatbot-input" 
+          type="text" 
+          placeholder="Type your message..." 
+          class="chatbot-input"
+        >
+        <button id="chatbot-send" class="chatbot-send-btn">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+
+      <!-- Quick Suggestions -->
+      <div class="chatbot-suggestions">
+        <button class="suggestion-btn" data-query="booking">🏨 Booking Info</button>
+        <button class="suggestion-btn" data-query="pricing">💰 Pricing</button>
+        <button class="suggestion-btn" data-query="contact">📞 Contact</button>
+        <button class="suggestion-btn" data-query="facilities">✨ Facilities</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="chatbot.js" defer></script>
+  <script src="payment.js" defer></script>
+</body>
+
+</html>
